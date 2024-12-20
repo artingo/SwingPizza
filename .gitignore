@@ -33,3 +33,4 @@ bin/
 /.idea/modules.xml
 /.idea/uiDesigner.xml
 /SwingPizza.iml
+/.idea/vcs.xml

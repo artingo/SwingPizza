@@ -50,6 +50,10 @@ public class Pizza implements Cloneable {
         this.größe = größe;
     }
 
+    public String getBild() {
+        return bild;
+    }
+
     @Override
     public Pizza clone() {
         try {
@@ -61,6 +65,7 @@ public class Pizza implements Cloneable {
 
     @Override
     public String toString() {
-        return GRÖSSEN.get(größe).getBezeichnung() + " Pizza '" + name + "' mit " + beläge + ", " + preis + "€\n";
+        return GRÖSSEN.get(größe).getBezeichnung() + " Pizza '" + name + "' " + beläge + ", " + preis + "€";
     }
+
 }

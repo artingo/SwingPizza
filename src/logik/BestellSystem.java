@@ -1,4 +1,4 @@
-package ui;
+package logik;
 
 import modell.Bestellung;
 import modell.Pizza;
@@ -19,7 +19,7 @@ public class BestellSystem {
         Tools.ausgeben(bestätigung);
     }
 
-    private static List<Pizza> ladeMenü(String dateipfad) {
+    public static List<Pizza> ladeMenü(String dateipfad) {
         List<String[]> zeilen = Tools.csvLaden(dateipfad);
         List<Pizza> menü = new ArrayList<>(zeilen.size());
 

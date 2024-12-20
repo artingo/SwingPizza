@@ -25,11 +25,11 @@ public class Bestellung {
 
     public String getBestellÜbersicht() {
         berechneGesamtkosten();
-        StringBuilder sb = new StringBuilder("\nBestellübersicht:\n");
+        StringBuilder sb = new StringBuilder("\n<b>Bestellübersicht:</b>\n");
         for (Pizza pizza : pizzen) {
-            sb.append(pizza.toString());
+            sb.append(pizza.toString() + "\n");
         }
-        sb.append("\nGesamtpreis: ").append(getGesamtKosten());
+        sb.append("\n<b>Gesamtpreis: ").append(getGesamtKosten());
         return sb.toString();
     }
 }
