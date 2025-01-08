@@ -24,7 +24,7 @@ public class DialogFrontend {
 
         // Bestell-Schleife
         do {
-            // Pizza-Nummer eingeben
+            // 1. Pizza-Nummer eingeben
             pizzaNr = Tools.zahlEingeben(getMenü());
 
             // mit '0' wird die Bestellung beendet
@@ -38,7 +38,7 @@ public class DialogFrontend {
                 continue;
             }
 
-            // Größe eingeben
+            // 2. Größe eingeben
             String größe = Tools.textEingeben("Welche Größe? (k)lein, (m)ittel, (g)roß oder e(x)tra groß? ");
             if (!GRÖSSEN.containsKey(größe.toLowerCase())) {
                 Tools.ausgeben("Leider gibt es die Größe '" + größe + "' nicht.");
@@ -46,7 +46,7 @@ public class DialogFrontend {
             }
             pizza = BestellSystem.bestellePizza(pizzaNr, größe);
 
-            // Pizza zur Bestellung hinzufügen
+            // 3. Pizza zur Bestellung hinzufügen
             pizzen.add(pizza);
             Tools.ausgeben(pizza + ", zur Bestellung hinzugefügt.");
 

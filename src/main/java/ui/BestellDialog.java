@@ -5,11 +5,9 @@ import modell.Pizza;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,6 +15,13 @@ import java.util.List;
 
 import static java.awt.BorderLayout.*;
 
+/**
+ * Stellt den das Pizza-Bestellsystem grafisch mithilfe von {@link JCard} dar
+ *
+ * @author Alfred Walther
+ * @version 1.0
+ * @since 1.0
+ */
 public class BestellDialog extends JPanel {
     private Image hintergrundbild;
     private JLabel titelLabel;
@@ -124,6 +129,11 @@ public class BestellDialog extends JPanel {
         }
     }
 
+    /**
+     * Durchläuft die Checkboxen und befüllt die <code>List&lt;Boolean&gt;</code>
+     *
+     * @return List der angehakten Checkboxen
+     */
     public List<Boolean> getAuswahl() {
         List<Boolean> auswahl = new ArrayList<>();
         for (JCard card : cards) {
@@ -134,6 +144,11 @@ public class BestellDialog extends JPanel {
         return auswahl;
     }
 
+    /**
+     * Fügt die <code>nachricht</code> auf der <code>ausgabe</code> hinzu.
+     *
+     * @param nachricht die neue Nachricht
+     */
     public void ausgeben(String nachricht) {
         HTMLDocument doc = (HTMLDocument) ausgabe.getStyledDocument();
         try {

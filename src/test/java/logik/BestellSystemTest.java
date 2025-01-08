@@ -44,6 +44,7 @@ class BestellSystemTest {
     @Test
     @DisplayName("Pizza Salami in allen Größen")
     void bestellePizza_Salami_alle_Größen() {
+        // TODO: aus größen.csv auslesen
         String[] größen = {"k", "m", "g", "x"};
         Pizza salami = BestellSystem.MENÜ.get(0);
 
@@ -59,6 +60,7 @@ class BestellSystemTest {
     void bestellePizza_Salami_falsche_Größe() {
         Pizza salami = BestellSystem.MENÜ.get(0);
         Pizza aktuellePizza = BestellSystem.bestellePizza(salami.getNummer(), "zz");
+        // bei falscher Größe wird der Grundpreis genommen
         assertEquals(aktuellePizza.getPreis(), salami.getPreis());
     }
 }
