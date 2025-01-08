@@ -17,7 +17,7 @@ import java.util.List;
 // TODO: Wochen- und Monatsübersicht
 // TODO: Rendite-Berechnung
 public class BestellSystemSwing {
-    public final static List<Pizza> MENÜ = BestellSystem.ladeMenü("resources/menü.csv");
+    public final static List<Pizza> MENÜ = BestellSystem.ladeMenü("menü.csv");
     private static List<Pizza> bestelltePizzen;
     private static Bestellung bestellung;
     private static BestellDialog dialog;

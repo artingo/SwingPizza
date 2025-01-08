@@ -2,11 +2,14 @@ package util;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -17,6 +20,8 @@ import java.util.function.Function;
  */
 public class Tools {
     public static final String CSV_SEPARATOR = ";";
+    private static final ClassLoader LOADER = Tools.class.getClassLoader();
+
 
     /**
      * Zeigt einen Eingabedialog und gibt die Benutzereingabe als 'int' zurück
@@ -96,7 +101,12 @@ public class Tools {
     public static List<String[]> csvLaden(String dateipfad) {
         List<String[]> daten = new ArrayList<>();
         List<String> zeilen;
-        Path pfad = Paths.get(dateipfad);
+        Path pfad = null;
+        try {
+            pfad = Paths.get(Objects.requireNonNull(LOADER.getResource(dateipfad)).toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
 
         if (Files.exists(pfad)) {
             try {

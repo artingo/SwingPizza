@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PizzaGröße {
-    public final static Map<String, PizzaGröße> GRÖSSEN = ladeGrößen("resources/größen.csv");
+    public final static Map<String, PizzaGröße> GRÖSSEN = ladeGrößen("größen.csv");
 
     private String bezeichnung;
     private double aufpreis;
