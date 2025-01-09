@@ -27,14 +27,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/.gitignore
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/uiDesigner.xml
+/.idea/
 /SwingPizza.iml
-/.idea/vcs.xml
-/.idea/compiler.xml
-/.idea/encodings.xml
-/.idea/jarRepositories.xml
 /target/
+/logs/

@@ -1,6 +1,8 @@
 package logik;
 
 import modell.Pizza;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.Tools;
 
 import java.util.ArrayList;
@@ -17,9 +19,16 @@ import java.util.Optional;
  * @see ui.DialogFrontend
  */
 public class BestellSystem {
+    private static final Logger LOG = LogManager.getLogger(BestellSystem.class);
+
     // TODO: Bestellung integrieren
+
     /** repräsentiert das Menü der bestellbaren Pizzen */
-    public final static List<Pizza> MENÜ = ladeMenü("menü.csv");
+    private final List<Pizza> menü;
+
+    public BestellSystem() {
+        menü = ladeMenü("menü.csv");
+    }
 
     /**
      * Lädt die bestellbaren Pizzen aus einer CSV-Datei
@@ -27,7 +36,8 @@ public class BestellSystem {
      * @param dateipfad der Pfad zur CSV-Datei
      * @return die Liste der geladenen Pizzen aus dem Menü
      */
-    public static List<Pizza> ladeMenü(String dateipfad) {
+    List<Pizza> ladeMenü(String dateipfad) {
+        LOG.debug("Lade Menü aus '{}'", dateipfad);
         List<String[]> zeilen = Tools.csvLaden(dateipfad);
         List<Pizza> menü = new ArrayList<>(zeilen.size());
 
@@ -39,10 +49,14 @@ public class BestellSystem {
             String bild = spalten[4];
             menü.add(new Pizza(nummer, name, zutaten, preis, bild));
         }
+        LOG.debug("Menü erfolgreich geladen: \n{}", menü);
         return menü;
     }
 
-    // TODO: in Instanz verlagern
+    public List<Pizza> getMenü() {
+        return menü;
+    }
+
     /**
      * Gibt eine Pizza aus dem Menü zurück
      *
@@ -50,12 +64,13 @@ public class BestellSystem {
      * @param größe   die Größe der gewünschten Pizza
      * @return die bestellte Pizza oder <code>null</code>, falls die <code>pizzaNr</code> nicht im Menü existiert
      */
-    public static Pizza bestellePizza(int pizzaNr, String größe) {
+    public Pizza bestellePizza(int pizzaNr, String größe) {
+        LOG.debug("Bestelle Pizza Nr.{}, Größe:{}'", pizzaNr, größe);
         Pizza bestelltePizza = null;
 
         // TODO: in eine eigene Methode auslagern
         // finde die Pizza mit der entsprechenden pizzaNr
-        Optional<Pizza> menüPizza = MENÜ.stream()
+        Optional<Pizza> menüPizza = menü.stream()
                 .filter(pizza -> pizza.getNummer() == pizzaNr)
                 .findFirst();
 
@@ -66,6 +81,10 @@ public class BestellSystem {
 
             // TODO: Größe in eigener Methode prüfen
             bestelltePizza.setGröße(größe);
+        }
+
+        if (bestelltePizza != null && größe.isBlank() == false) {
+            LOG.debug("{} erfolgreich bestellt.", bestelltePizza);
         }
         return bestelltePizza;
     }

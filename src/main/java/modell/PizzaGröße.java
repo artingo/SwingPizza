@@ -1,5 +1,7 @@
 package modell;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.Tools;
 
 import java.util.HashMap;
@@ -14,6 +16,8 @@ import java.util.Map;
  * @since 1.0
  */
 public class PizzaGröße {
+    private static final Logger LOG = LogManager.getLogger(PizzaGröße.class);
+
     /** repräsentiert die verfügbaren Pizza-Größen */
     public final static Map<String, PizzaGröße> GRÖSSEN = ladeGrößen("größen.csv");
     public final static String STANDARD = "m";
@@ -36,10 +40,13 @@ public class PizzaGröße {
 
     /**
      * Lädt die verfügbaren Pizza-Größen aus einer CSV-Datei
+     *
      * @param dateipfad die CSV-Datei mit den Größen
      * @return die verfügbaren Größen als <code>Map&lt;String, PizzaGröße&gt;</code>
      */
-    private static Map<String, PizzaGröße> ladeGrößen(String dateipfad) {
+    static Map<String, PizzaGröße> ladeGrößen(String dateipfad) {
+        LOG.debug("Lade Pizzagrößen aus '{}'", dateipfad);
+
         List<String[]> zeilen = Tools.csvLaden(dateipfad);
         Map<String, PizzaGröße> größen = new HashMap<>(zeilen.size());
 
@@ -49,6 +56,13 @@ public class PizzaGröße {
             double aufpreis = Double.parseDouble(spalten[2].replace(',', '.'));
             größen.put(kürzel, new PizzaGröße(bezeichnung, aufpreis));
         }
+
+        LOG.debug("Pizzagrößen erfolgreich geladen: \n{}", größen);
         return größen;
+    }
+
+    @Override
+    public String toString() {
+        return "{bezeichnung:'" + bezeichnung + "', aufpreis:" + aufpreis + "}";
     }
 }

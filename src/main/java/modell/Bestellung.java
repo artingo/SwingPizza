@@ -1,5 +1,9 @@
 package modell;
 
+import logik.BestellSystem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.List;
 
 /**
@@ -10,6 +14,8 @@ import java.util.List;
  * @since 1.0
  */
 public class Bestellung {
+    private static final Logger LOG = LogManager.getLogger(Bestellung.class);
+
     private List<Pizza> pizzen;
     private double gesamtKosten;
 
@@ -24,6 +30,7 @@ public class Bestellung {
         for (Pizza pizza : pizzen) {
             gesamtKosten += pizza.getPreis();
         }
+        LOG.debug("Gesamtkosten: {}", getGesamtKosten());
     }
 
     /**

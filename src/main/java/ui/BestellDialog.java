@@ -1,6 +1,8 @@
 package ui;
 
 import modell.Pizza;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,6 +25,8 @@ import static java.awt.BorderLayout.*;
  * @since 1.0
  */
 public class BestellDialog extends JPanel {
+    private static final Logger LOG = LogManager.getLogger(BestellDialog.class);
+
     private Image hintergrundbild;
     private JLabel titelLabel;
     private List<JCard> cards;
@@ -34,7 +38,7 @@ public class BestellDialog extends JPanel {
         try {
             hintergrundbild = ImageIO.read(hintergrundURL);
         } catch (IOException e) {
-            System.err.println("Konnte Hintergrundbild nicht laden: \n" + hintergrundURL);
+            LOG.error("Konnte Hintergrundbild nicht laden: {}", hintergrundURL);
         }
 
         setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -78,7 +82,10 @@ public class BestellDialog extends JPanel {
 
         JButton neuButton = new JButton("Neue Bestellung");
         // TODO: Checkboxen zurücksetzen
-        neuButton.addActionListener(event -> ausgabe.setText(""));
+        neuButton.addActionListener(event -> {
+            ausgabe.setText("");
+            LOG.info("Neue Bestellung");
+        });
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -130,7 +137,7 @@ public class BestellDialog extends JPanel {
     }
 
     /**
-     * Durchläuft die Checkboxen und befüllt die <code>List&lt;Boolean&gt;</code>
+     * Durchläuft die Checkboxen und befüllt die <code>List&lt;Boolean&gt; auswahl</code>
      *
      * @return List der angehakten Checkboxen
      */
@@ -157,6 +164,7 @@ public class BestellDialog extends JPanel {
                     // notwendig, um den Standard-Font "Times Roman" zu umgehen
                     "<p style='font-family: Arial, Helvetica, sans-serif'>" + nachricht);
         } catch (BadLocationException | IOException e) {
+            LOG.error("Fehler bei der Ausgabe.\nNachricht:{}\nFehlermeldung:", nachricht, e.getMessage());
             throw new RuntimeException(e);
         }
     }

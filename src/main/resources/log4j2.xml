@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern="%highlight{%d{HH:mm:ss.SSS} [%logger{36}.%method()] %-5level - %msg%n}{FATAL=magenta, ERROR=red, WARN=yellow bold, INFO=white, DEBUG=green bold, TRACE=blue}"/>
+        </Console>
+        <RollingFile name="RollingFile"
+                     fileName="logs/app.log" filePattern="logs/app.%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%logger{36}.%method()] %-5level - %msg%n"/>
+            <Policies>
+                <!-- wenn 1 MByte Dateigröße erreicht ist, erzeuge eine neue Log-Datei -->
+                <SizeBasedTriggeringPolicy size="1MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>

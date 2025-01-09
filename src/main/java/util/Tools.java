@@ -1,9 +1,11 @@
 package util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,9 +21,9 @@ import java.util.function.Function;
  * @version 1.1
  */
 public class Tools {
+    private static final Logger LOG = LogManager.getLogger(Tools.class);
     public static final String CSV_SEPARATOR = ";";
     private static final ClassLoader LOADER = Tools.class.getClassLoader();
-
 
     /**
      * Zeigt einen Eingabedialog und gibt die Benutzereingabe als 'int' zurück
@@ -75,6 +77,7 @@ public class Tools {
             }
         } while (istUngültig);
 
+        LOG.trace("zahlEingabe={}", zahlEingabe);
         return zahlEingabe;
     }
 
@@ -86,6 +89,7 @@ public class Tools {
      */
     public static String textEingeben(String nachricht) {
         String eingabe = JOptionPane.showInputDialog(nachricht);
+        LOG.trace("eingabe={}", eingabe);
         return (eingabe == null || eingabe.isBlank()) ? "" : eingabe;
     }
 
@@ -98,13 +102,22 @@ public class Tools {
         JOptionPane.showMessageDialog(null, nachricht, "Auswahl", JOptionPane.QUESTION_MESSAGE);
     }
 
+    /**
+     * Lädt eine CSV-Datei und gibt ihre Daten als String-Array zurück.
+     *
+     * @param dateipfad auf die Datei
+     * @return gibt die Daten in einer <code>List&lt;String[]&gt;</code> zurück
+     */
     public static List<String[]> csvLaden(String dateipfad) {
+        LOG.trace("dateipfad={}", dateipfad);
+
         List<String[]> daten = new ArrayList<>();
         List<String> zeilen;
         Path pfad = null;
         try {
             pfad = Paths.get(Objects.requireNonNull(LOADER.getResource(dateipfad)).toURI());
         } catch (URISyntaxException e) {
+            LOG.error("Fehler beim Auflösen der URI: {}", e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -112,6 +125,7 @@ public class Tools {
             try {
                 zeilen = Files.readAllLines(pfad);
             } catch (IOException e) {
+                LOG.error("Fehler beim Einlesen: {}", e.getMessage());
                 throw new RuntimeException(e);
             }
 
@@ -127,6 +141,7 @@ public class Tools {
                 daten.add(spalten);
             }
         } else {
+            LOG.error("'{}' wurde nicht gefunden!", dateipfad);
             throw new RuntimeException(dateipfad + " wurde nicht gefunden!");
         }
         return daten;

@@ -1,5 +1,8 @@
 package modell;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static modell.PizzaGröße.GRÖSSEN;
 
 /**
@@ -10,8 +13,7 @@ import static modell.PizzaGröße.GRÖSSEN;
  * @since 1.0
  */
 public class Pizza implements Cloneable {
-    /** Platzhalter-Bild, falls kein eigenes Bild angegeben wird */
-    private static final String PIZZA_IMG = "https://www.foodandwine.com/thmb/4qg95tjf0mgdHqez5OLLYc0PNT4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/classic-cheese-pizza-FT-RECIPE0422-31a2c938fc2546c9a07b7011658cfd05.jpg";
+    private static final Logger LOG = LogManager.getLogger(Pizza.class);
 
     /** die Menünummer der Pizza */
     final private int nummer;
@@ -79,6 +81,8 @@ public class Pizza implements Cloneable {
         größe = größe.toLowerCase();
         if (GRÖSSEN.containsKey(größe)) {
             this.größe = größe;
+        } else {
+            LOG.warn("Falsche Größe: '{}'", größe);
         }
     }
 
@@ -95,6 +99,7 @@ public class Pizza implements Cloneable {
         try {
             return (Pizza) super.clone();
         } catch (CloneNotSupportedException e) {
+            LOG.error("Fehler beim Klonen der Pizza '{}':\n{}", name, e.getMessage());
             throw new RuntimeException(e);
         }
     }
